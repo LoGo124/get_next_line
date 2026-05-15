@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:13:30 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/15 14:49:23 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:14:59 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,26 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (!point)
 		return (NULL);
 	while (size * nmemb--)
-		((char *)b)[i++] = 0;
+		((char *)point)[i++] = 0;
 	return (point);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t	count;
+	size_t	index;
+
+	index = 0;
+	count = ft_strlen(src);
+	if (size == 0)
+		return (count);
+	while (src[index] && index < (size - 1))
+	{
+		dest[index] = src[index];
+		index++;
+	}
+	dest[index] = '\0';
+	return (count);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -59,6 +77,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!point)
 		return (NULL);
 	ft_strlcpy(point, s1, ft_strlen(s1) + 1);
-	ft_strlcat(point, s2, size + 1);
+	ft_strlcpy(point + ft_strlen(s1), s2, ft_strlen(s2));
 	return (point);
 }

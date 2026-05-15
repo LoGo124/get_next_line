@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 16:01:24 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/15 14:25:51 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:40:18 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	main(int ac, char **av)
 {
 	int	fd;
 
-	while (ac > 0)
+	while (--ac)
 	{
-		fd = open(av[ac--], O_RDONLY);
-		printf("Resultado: %s\n", get_next_line(fd));
+		fd = open(av[ac], O_RDONLY);
+		printf("Resultado: %s<---EOL\n", get_next_line(fd));
 	}
 }
