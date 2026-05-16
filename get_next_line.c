@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/15 19:42:43 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/16 14:13:54 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 char	*extract_line(char *str)
 {
-	int	i;
+	int		i;
+	char	*line;
 
+	line = "";
 	i = 0;
-	while (str[i] && ft_strchr(str, '\n'))
+	while (str[i] && str[i] !='\n')
+	{
+		line[i] = str[i];
 		i++;
-	str[i] = 0;
-	return (str);
+	}
+	line[i] = '\n';
+	return (line);
 }
 
 char	*join_and_free(char *s1, char *s2)
@@ -28,8 +33,7 @@ char	*join_and_free(char *s1, char *s2)
 	char *res;
 
 	res = ft_strjoin(s1, s2);
-	write(1, res, ft_strlen(res));
-	//free(s1);
+	free(s1);
 	return (res);
 }
 
@@ -42,7 +46,12 @@ char	*read_eol(int fd)
 	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buff)
 		return (NULL);
-	str = "";
+	str = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!str)
+	{
+		free(buff);
+		return (NULL);
+	}
 	rd_bytes = 1;
 	while (rd_bytes && !ft_strchr(str, '\n'))
 	{
@@ -50,21 +59,25 @@ char	*read_eol(int fd)
 		if (rd_bytes == -1)
 		{
 			free(buff);
+			free(str);
 			return (NULL);
 		}
 		str = join_and_free(str, buff);
 	}
+	return (str);
 }
 
 char *get_next_line(int fd)
 {
-	char *str;
+	static char *str;
+	char *line;
 
 	if (fd < 1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
 		return (NULL);
 	str = read_eol(fd);
-	if (!(str = read_eol(fd)))
+	if (!str)
 		return (NULL);
-	str = extract_line(str);
-	return (str);
+	line = extract_line(str);
+	str = ft_strchr(str, '\n');
+	return (line);
 }	

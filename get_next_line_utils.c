@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:13:30 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/15 19:14:59 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/16 14:17:02 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	point = malloc(size * nmemb);
 	if (!point)
 		return (NULL);
-	while (size * nmemb--)
+	i = 0;
+	while (nmemb--)
+	{
 		((char *)point)[i++] = 0;
+	}
 	return (point);
 }
 
@@ -67,16 +70,28 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*point;
-	size_t	size;		
+	int		sizetotal;
+	char	*res;
+	int		i;
+	int		j;
 
-	if (!s1 || !s2)
+	i = 0;
+	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+	res = malloc(sizeof(char) * (sizetotal + 1));
+	if (!res || !s1 || !s2)
 		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2);
-	point = ft_calloc(size + 1, sizeof(char));
-	if (!point)
-		return (NULL);
-	ft_strlcpy(point, s1, ft_strlen(s1) + 1);
-	ft_strlcpy(point + ft_strlen(s1), s2, ft_strlen(s2));
-	return (point);
+	while (s1[i] != 0)
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != 0)
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
+	res[sizetotal] = 0;
+	return (res);
 }
