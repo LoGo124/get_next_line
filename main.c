@@ -1,10 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+
 /*   Created: 2026/05/12 16:01:24 by ilopez-g          #+#    #+#             */
 /*   Updated: 2026/05/16 20:24:59 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
@@ -24,10 +20,16 @@ int	main(int ac, char **av)
 	{
 		fd = open(av[ac], O_RDONLY);
 		str = get_next_line(fd);
-		printf("\nResultado: %s<\n", str);
+		printf("Res: %s\n---\n", str);
+		while (ft_strlen(str) > 43)
+		{
+			str = get_next_line(fd);
+			printf("Res: %s\n---\n", str);
+		}
 		//str = get_next_line(fd);
 		//printf("\nResultado: %s<\n", str);
 	}
 	free(str);
+	close(fd);
 	return (0);
 }

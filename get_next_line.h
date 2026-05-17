@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:14:00 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/16 14:11:01 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/17 18:52:31 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 // get_next_line
 char	*get_next_line(int fd);
-char    *read_eol(int fd);
+char    *read_eol(int fd, char*buff);
 char    *join_and_free(char *s1, char *s2);
 char    *extract_line(char *str);
 // get_next_line_utils
