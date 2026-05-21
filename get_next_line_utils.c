@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:13:30 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/16 14:17:02 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/21 11:09:37 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,6 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	else
 		return (NULL);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*point;
-	int		i;
-
-	if (nmemb != 0 && size > (size_t)-1 / nmemb)
-		return (NULL);
-	point = malloc(size * nmemb);
-	if (!point)
-		return (NULL);
-	i = 0;
-	while (nmemb--)
-	{
-		((char *)point)[i++] = 0;
-	}
-	return (point);
 }
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
@@ -94,4 +76,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	res[sizetotal] = 0;
 	return (res);
+}
+
+char	*ft_strdup(const char *str)
+{
+	size_t	i;
+	size_t	len;
+	char	*s;
+
+	len = ft_strlen(str) + 1;
+	s = (char *)malloc(sizeof(char) * len);
+	if (s == NULL)
+		return (NULL);
+	i = -1;
+	while (++i < len)
+		s[i] = str[i];
+	return (s);
 }

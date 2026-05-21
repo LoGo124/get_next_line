@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		fd = open(av[ac], O_RDONLY);
 		str = get_next_line(fd);
 		printf("Res: %s\n---\n", str);
-		while (ft_strlen(str) > 43)
+		while (str && ft_strlen(str) > 43)
 		{
 			str = get_next_line(fd);
 			printf("Res: %s\n---\n", str);

@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/17 20:28:29 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/21 13:28:50 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,39 @@ char	*extract_nline(char *buff)
 {
 	char	*nstr;
 	int		i;
+	int		j;
 
-	nstr = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	nstr = malloc(BUFFER_SIZE + 1  * sizeof(char));
 	if (!nstr)
 		return (NULL);
-	while (*buff && *buff != '\n')
-		buff++;
 	i = 0;
-	while (buff[++i])
-		nstr[i - 1] = buff[i];
-	nstr[i] = 0;
+	while (buff[i] && buff[i] != '\n')
+		i++;
+	if (!buff[i])
+	{
+		free(buff);
+		return(NULL);
+	}
+	j = -1;
+	while (buff[i + ++j + 1])
+		nstr[j] = buff[i + j + 1];
+	nstr[j] = 0;
+	free(buff);
 	return (nstr);
 }
 
-char	*extract_line(char *str)
+char	*extract_line(char *buff)
 {
-	int		i;
 	char	*line;
 
-	i = 0;
-	while (str[i] && str[i] !='\n')
-	{
-		*line++ = str[i];
-		i++;
-	}
-	line = str[i];
-	return (line - i);
+	if (!buff || !*buff)
+		return(NULL);
+	line = ft_strdup(buff);
+	if (ft_strchr(buff, '\n'))
+		line[(int)(ft_strchr(buff, '\n') - buff) + 1] = 0;
+	else
+		line[ft_strlen(line)] = 0;
+	return (line);
 }
 
 char	*join_and_free(char *s1, char *s2)
@@ -55,48 +62,45 @@ char	*join_and_free(char *s1, char *s2)
 
 char	*read_eol(int fd, char *buff)
 {
-	char	*str;
+	char	*buffer;
 	int		rd_bytes;
 
-	str = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!str)
-	{
-		free(buff);
-		return (NULL);
-	}
+	if (!buff)
+		buff = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	rd_bytes = 1;
-	str = join_and_free(str, buff);
-	while (rd_bytes && !ft_strchr(str, '\n'))
+	while (rd_bytes && !ft_strchr(buff, '\n'))
 	{
-		rd_bytes = read(fd, buff, BUFFER_SIZE);
+		rd_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (rd_bytes == -1)
 		{
-			free(buff);
-			free(str);
+			free(buffer);
 			return (NULL);
 		}
-		str = join_and_free(str, buff);
+		buff = join_and_free(buff, buffer);
 	}
-	return (str);
+	return (buff);
 }
 
 char *get_next_line(int fd)
 {
-	static char	*str;
+	static char	*buff;
 	char		*line;
-	char		*buff;
+	char		*readed;
 
-	if (fd < 1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	readed = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!readed)
+		return (NULL);
 	if (!buff)
+		buff = ft_strdup("");
+	else
+		readed = ft_strdup(buff);
+	readed = read_eol(fd, readed);
+	if (!readed)
 		return (NULL);
-	ft_strlcpy(buff, str, ft_strlen(str));
-	str = read_eol(fd, buff);
-	if (!str)
-		return (NULL);
-	line = extract_line(str);
-	str = extract_nline(buff);
-	free(buff);
+	line = extract_line(readed);
+	buff = extract_nline(readed);
 	return (line);
-}	
+}
