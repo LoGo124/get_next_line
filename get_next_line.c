@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/21 13:28:50 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/25 13:44:34 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ char	*extract_nline(char *buff)
 
 	nstr = malloc(BUFFER_SIZE + 1  * sizeof(char));
 	if (!nstr)
+	{
+		//free(buff);
 		return (NULL);
+	}
 	i = 0;
 	while (buff[i] && buff[i] != '\n')
 		i++;
 	if (!buff[i])
 	{
+		free(nstr);
 		free(buff);
 		return(NULL);
 	}
@@ -69,16 +73,18 @@ char	*read_eol(int fd, char *buff)
 		buff = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	rd_bytes = 1;
-	while (rd_bytes && !ft_strchr(buff, '\n'))
+	while (rd_bytes > 0 && !ft_strchr(buff, '\n'))
 	{
 		rd_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (rd_bytes == -1)
+			buff = NULL;
+		else if (rd_bytes > 0)
 		{
-			free(buffer);
-			return (NULL);
+			buffer[rd_bytes] = 0;
+			buff = join_and_free(buff, buffer);
 		}
-		buff = join_and_free(buff, buffer);
 	}
+	free(buffer);
 	return (buff);
 }
 
@@ -92,15 +98,24 @@ char *get_next_line(int fd)
 		return (NULL);
 	readed = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!readed)
+	{
+		free(buff);
 		return (NULL);
+	}
 	if (!buff)
+	{
 		buff = ft_strdup("");
+		readed[0] = 0;
+	}
 	else
 		readed = ft_strdup(buff);
+	free(buff);
 	readed = read_eol(fd, readed);
 	if (!readed)
 		return (NULL);
 	line = extract_line(readed);
 	buff = extract_nline(readed);
+	if (!buff)	
+		free(buff);
 	return (line);
 }

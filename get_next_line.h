@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:14:00 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/21 11:41:47 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/25 13:42:00 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 9999
 # endif
 
 // get_next_line
