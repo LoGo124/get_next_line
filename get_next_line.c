@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/25 13:44:34 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/25 14:07:16 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ char	*extract_nline(char *buff)
 	int		i;
 	int		j;
 
-	nstr = malloc(BUFFER_SIZE + 1  * sizeof(char));
+	nstr = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!nstr)
 	{
-		//free(buff);
 		return (NULL);
 	}
 	i = 0;
@@ -31,7 +30,7 @@ char	*extract_nline(char *buff)
 	{
 		free(nstr);
 		free(buff);
-		return(NULL);
+		return (NULL);
 	}
 	j = -1;
 	while (buff[i + ++j + 1])
@@ -46,7 +45,7 @@ char	*extract_line(char *buff)
 	char	*line;
 
 	if (!buff || !*buff)
-		return(NULL);
+		return (NULL);
 	line = ft_strdup(buff);
 	if (ft_strchr(buff, '\n'))
 		line[(int)(ft_strchr(buff, '\n') - buff) + 1] = 0;
@@ -57,7 +56,7 @@ char	*extract_line(char *buff)
 
 char	*join_and_free(char *s1, char *s2)
 {
-	char *res;
+	char	*res;
 
 	res = ft_strjoin(s1, s2);
 	free(s1);
@@ -88,7 +87,7 @@ char	*read_eol(int fd, char *buff)
 	return (buff);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char	*buff;
 	char		*line;
@@ -96,26 +95,16 @@ char *get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	readed = malloc(BUFFER_SIZE + 1 * sizeof(char));
-	if (!readed)
-	{
-		free(buff);
-		return (NULL);
-	}
 	if (!buff)
-	{
 		buff = ft_strdup("");
-		readed[0] = 0;
-	}
-	else
-		readed = ft_strdup(buff);
+	readed = ft_strdup(buff);
 	free(buff);
 	readed = read_eol(fd, readed);
 	if (!readed)
 		return (NULL);
 	line = extract_line(readed);
 	buff = extract_nline(readed);
-	if (!buff)	
+	if (!buff)
 		free(buff);
 	return (line);
 }
