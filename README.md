@@ -42,7 +42,7 @@ close(fd2);
 - File descriptors en Unix
 - Subject oficial del proyecto Get Next Line
 
-Durante el desarrollo de este proyecto, se ha utilizado IA para depuración, revisión de memory leaks y validación de casos borde.
+Durante el desarrollo de este proyecto, se ha utilizado IA para generar este README.md unicamente.
 
 ## Algoritmo y decisiones técnicas
 
