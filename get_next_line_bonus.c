@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/26 11:20:18 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:30:00 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*extract_nline(char *readed)
 {
@@ -87,22 +87,22 @@ char	*read_eol(int fd, char *readed)
 
 char	*get_next_line(int fd)
 {
-	static char	*saved;
+	static char	*saved[4096];
 	char		*line;
 	char		*readed;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= 4096)
 		return (NULL);
-	if (!saved)
-		saved = ft_strdup("");
-	readed = ft_strdup(saved);
-	free(saved);
+	if (!saved[fd])
+		saved[fd] = ft_strdup("");
+	readed = ft_strdup(saved[fd]);
+	free(saved[fd]);
 	readed = read_eol(fd, readed);
 	if (!readed)
 		return (NULL);
 	line = extract_line(readed);
-	saved = extract_nline(readed);
-	if (!saved)
-		free(saved);
+	saved[fd] = extract_nline(readed);
+	if (!saved[fd])
+		free(saved[fd]);
 	return (line);
 }
