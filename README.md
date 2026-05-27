@@ -7,20 +7,20 @@ get_next_line es una función en C diseñada para leer un descriptor de archivo 
 ## Instrucciones
 
 El proyecto debe compilarse con las flags -Wall, -Werror, -Wextra y definiendo el tamaño del buffer (BUFFER_SIZE):
-
+```
 cc -Wall -Werror -Wextra -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl
-
+```
 Para la parte bonus (soporte multi-fd):
-
+```
 cc -Wall -Werror -Wextra -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c -o gnl_bonus
-
+```
 Si no se define BUFFER_SIZE, por defecto se usa el valor 9999. Para usar la función, incluye el header correspondiente:
-"""
+```c
 #include "get_next_line.h"          // Parte obligatoria
 #include "get_next_line_bonus.h"    // Parte bonus (multi-fd)
-"""
+```
 Ejemplo de uso:
-
+```c
 int fd1 = open("archivo1.txt", O_RDONLY);
 int fd2 = open("archivo2.txt", O_RDONLY);
 char *line1, *line2;
@@ -34,7 +34,7 @@ while (line1 || line2)
 }
 close(fd1);
 close(fd2);
-
+```
 ## Recursos
 
 - Manual de read()
