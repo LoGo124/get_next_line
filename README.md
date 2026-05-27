@@ -15,10 +15,10 @@ Para la parte bonus (soporte multi-fd):
 cc -Wall -Werror -Wextra -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c -o gnl_bonus
 
 Si no se define BUFFER_SIZE, por defecto se usa el valor 9999. Para usar la función, incluye el header correspondiente:
-
+"""
 #include "get_next_line.h"          // Parte obligatoria
 #include "get_next_line_bonus.h"    // Parte bonus (multi-fd)
-
+"""
 Ejemplo de uso:
 
 int fd1 = open("archivo1.txt", O_RDONLY);
