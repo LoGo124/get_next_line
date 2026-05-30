@@ -6,7 +6,7 @@
 /*   By: ilopez-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:11:23 by ilopez-g          #+#    #+#             */
-/*   Updated: 2026/05/26 11:30:00 by ilopez-g         ###   ########.fr       */
+/*   Updated: 2026/05/30 18:09:38 by ilopez-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	*read_eol(int fd, char *readed)
 	{
 		rd_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (rd_bytes == -1)
+		{
+			free(readed);
 			readed = NULL;
+		}
 		else if (rd_bytes > 0)
 		{
 			buffer[rd_bytes] = 0;
@@ -91,7 +94,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*readed;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= 4096)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 4096)
 		return (NULL);
 	if (!saved[fd])
 		saved[fd] = ft_strdup("");
